@@ -37,8 +37,8 @@ function App() {
 
   const menuItemStatusHandler = (id, groupId) => {
     const restrictions = rules[id]
-    console.log(groupId)
-    console.log(restrictions)
+    // console.log(groupId)
+    // console.log(restrictions)
 
     setMenuItems(
       menuItems.map((group, i) =>
