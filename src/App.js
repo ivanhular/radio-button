@@ -28,7 +28,7 @@ function App() {
       i === 0 ? group : group.map((item) => ({ ...item, disabled: true }))
     )
   )
-  const radioRef = useRef([...new Array(3)].map(() => React.createRef()))
+  // const radioRef = useRef([...new Array(3)].map(() => React.createRef()))
   const [radioGroupValues, setRadioGroupValues] = useState({
     0: '',
     1: '',
@@ -39,8 +39,9 @@ function App() {
     const restrictions = rules[id]
     console.log(groupId)
     console.log(restrictions)
+
     setMenuItems(
-      data.menus.map((group, i) =>
+      menuItems.map((group, i) =>
         i === groupId
           ? group
           : group.map((item) => ({
@@ -62,7 +63,6 @@ function App() {
           1: '',
           2: '',
         })
-        radioRef.current[2].current.value = null
         break
       case 1:
         setRadioGroupValues({
@@ -83,8 +83,7 @@ function App() {
   }
 
   useEffect(() => {
-    // console.log(radioRef.current[0].current.checked)
-    console.log(radioGroupValues)
+    // console.log(radioGroupValues)
   }, [menuItems, radioGroupValues])
 
   return (
@@ -107,7 +106,8 @@ function App() {
                           aria-label='menu'
                           name='menu'
                           onChange={(e) => selectedMenuChange(e, i)}
-                          ref={radioRef.current[i]}
+                          value={radioGroupValues[i]}
+                          // ref={radioRef.current[i]}
                         >
                           {group.map((item) => (
                             <FormControlLabel
