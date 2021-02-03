@@ -51,6 +51,7 @@ function App() {
         setRestrictions({
           ...restrictions,
           [groupId]: [...rules[e?.target?.value]],
+          1: [],
         })
         break
       case 1:
