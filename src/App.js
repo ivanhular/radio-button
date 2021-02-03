@@ -38,8 +38,6 @@ function App() {
 
   const [restrictions, setRestrictions] = useState({})
 
-  // const [currentGroup, setCurrentGroup] = useState(0)
-
   const selectedMenuChange = (e, groupId) => {
     switch (groupId) {
       case 0:
