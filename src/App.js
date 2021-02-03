@@ -88,23 +88,29 @@ function App() {
       (acc, key) => acc.concat(restrictions[key]),
       []
     )
-
-    setMenu(
-      menuItems.map((group, i) =>
-        group.map((item) => ({
-          ...item,
-          disabled: restrict?.includes(Number(item.id)),
-        }))
+    console.log(menuItems)
+    if (radioGroupValues[0] !== '') {
+      setMenu(
+        menuItems.map((group, i) =>
+          group.map((item) => ({
+            ...item,
+            disabled: restrict?.includes(Number(item.id)),
+          }))
+        )
       )
-    )
+    } else {
+      setMenu(menuItems)
+    }
+
     // console.log(restrictions)
-  }, [restrictions, menuItems])
+  }, [restrictions, menuItems, radioGroupValues])
 
   return (
     <>
       <form>
         <Box>
           <Grid container spacing={3}>
+            {console.log(menu)}
             {menu?.map((group, i) => (
               <Grid item xs={12} md={4} key={i}>
                 <Card>
