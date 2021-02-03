@@ -28,6 +28,7 @@ function App() {
       i === 0 ? group : group.map((item) => ({ ...item, disabled: true }))
     )
   )
+  const [menu, setMenu] = useState([])
   // const radioRef = useRef([...new Array(3)].map(() => React.createRef()))
   const [radioGroupValues, setRadioGroupValues] = useState({
     0: '',
@@ -35,26 +36,11 @@ function App() {
     2: '',
   })
 
-  const menuItemStatusHandler = (id, groupId) => {
-    const restrictions = rules[id]
-    // console.log(groupId)
-    // console.log(restrictions)
+  const [restrictions, setRestrictions] = useState({})
 
-    setMenuItems(
-      menuItems.map((group, i) =>
-        i === groupId
-          ? group
-          : group.map((item) => ({
-              ...item,
-              disabled: restrictions?.includes(Number(item.id)),
-            }))
-      )
-    )
-  }
+  // const [currentGroup, setCurrentGroup] = useState(0)
 
   const selectedMenuChange = (e, groupId) => {
-    menuItemStatusHandler(e?.target?.value, groupId)
-
     switch (groupId) {
       case 0:
         setRadioGroupValues({
@@ -63,6 +49,11 @@ function App() {
           1: '',
           2: '',
         })
+
+        setRestrictions({
+          ...restrictions,
+          [groupId]: [...rules[e?.target?.value]],
+        })
         break
       case 1:
         setRadioGroupValues({
@@ -70,6 +61,18 @@ function App() {
           [groupId]: e?.target?.value,
           2: '',
         })
+        if (rules[e?.target?.value]) {
+          setRestrictions({
+            ...restrictions,
+            [groupId]: [...rules[e?.target?.value]],
+          })
+        } else {
+          setRestrictions({
+            ...restrictions,
+            [groupId]: [],
+          })
+        }
+
         break
       case 2:
         setRadioGroupValues({
@@ -83,15 +86,28 @@ function App() {
   }
 
   useEffect(() => {
-    // console.log(radioGroupValues)
-  }, [menuItems, radioGroupValues])
+    const restrict = Object.keys(restrictions).reduce(
+      (acc, key) => acc.concat(restrictions[key]),
+      []
+    )
+
+    setMenu(
+      menuItems.map((group, i) =>
+        group.map((item) => ({
+          ...item,
+          disabled: restrict?.includes(Number(item.id)),
+        }))
+      )
+    )
+    // console.log(restrictions)
+  }, [restrictions, menuItems])
 
   return (
     <>
       <form>
         <Box>
           <Grid container spacing={3}>
-            {menuItems?.map((group, i) => (
+            {menu?.map((group, i) => (
               <Grid item xs={12} md={4} key={i}>
                 <Card>
                   <CardContent>
